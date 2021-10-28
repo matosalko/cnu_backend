@@ -36,4 +36,22 @@ async function getFilteredIngredients(req, res) {
     }
 }
 
-export default { getAllIngredients, getFilteredIngredients }
+async function createNewIngredient(req, res) {
+    const validationResults = validationResult(req)
+    if(validationResults.isEmpty()) {
+        try {
+            const ingredient = await req.context.models.ingredient.create(req.body)
+            res.sendStatus(200)
+        } catch(error) {
+            req.log.error(error)
+            res.send(500)
+        }
+    } else {
+        req.log.info(`validation error body: ${req.body}`)
+        res.status(400)
+        res.send('Validation error.')
+    }
+        
+}
+
+export default { getAllIngredients, getFilteredIngredients, createNewIngredient }
