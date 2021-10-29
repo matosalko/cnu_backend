@@ -7,13 +7,18 @@ const router = express.Router();
 
 router.get("/", services.categories.getAllCategories);
 
-// router.get('/:id', param('id').isInt({min: 0}), services.categories.getFilteredCategories)
-
 router.post(
   "/",
   body("title").isLength({ min: 2, max: 50 }),
   services.categories.createNewCategory
 );
+
+router.put(
+  '/:id',
+  param("id").isInt({min: 0}),
+  body("title").isLength({ min: 2, max: 50 }),
+  services.categories.updateCategory
+)
 
 router.delete(
   "/:id",

@@ -56,7 +56,7 @@ async function deleteIngredientById(req, res) {
   try {
     const validationResults = validationResult(req);
     if (validationResults.isEmpty()) {
-      const deletedIngredient = await req.context.models.ingredient.destroy({
+      await req.context.models.ingredient.destroy({
         where: { id: req.params.id },
       });
       res.sendStatus(200);

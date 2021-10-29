@@ -25,6 +25,13 @@ router.post(
         throw new Error("Array does not contain Integers");
       return true;
     }),
+  body("categories")
+    .isArray()
+    .custom((value) => {
+      if (!value.every(Number.isInteger))
+        throw new Error("Array does not contain Integers");
+      return true;
+    }),
   services.recipes.createNewRecipe
 );
 

@@ -46,8 +46,25 @@ async function deleteCategoryById(req, res) {
   }
 }
 
+async function updateCategory(req, res) {
+  try {
+    const validationResults = validationResult(req);
+    if (validationResults.isEmpty()) {
+      await req.context.models.category.update(
+        { title: req.body.title },
+        { where: { id: req.params.id } }
+      );
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    req.log.error(error);
+    res.send(500);
+  }
+}
+
 export default {
   getAllCategories,
   createNewCategory,
   deleteCategoryById,
+  updateCategory,
 };

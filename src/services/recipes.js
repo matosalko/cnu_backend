@@ -43,10 +43,11 @@ expected request body for creating new recipe:
             text: "instructions for making the recipe",
             rating: 5
         },
-        ingredients: [1, 3]
+        ingredients: [1, 3],
+        categories: [1, 2]
     }
 
-    ingredients CAN be empty array if no ingredients are needed for recipe
+    ingredients and categories CAN be empty arrays
 */
 async function createNewRecipe(req, res) {
   try {
@@ -58,6 +59,11 @@ async function createNewRecipe(req, res) {
         return { recipeId: recipe.id, ingredientId: ingredientId };
       });
       await req.context.models.recipeIngredients.bulkCreate(recipeIngredients);
+
+      const recipeCategories = req.body.categories.map((categoryId) => {
+        return { recipeId: recipe.id, categoryId: categoryId };
+      });
+      await req.context.models.recipeCategories.bulkCreate(recipeCategories);
 
       res.sendStatus(200);
     } else {
@@ -99,6 +105,9 @@ async function deleteRecipe(req, res) {
         where: { id: req.params.id },
       });
       await req.context.models.recipeIngredients.destroy({
+        where: { recipeId: req.params.id },
+      });
+      await req.context.models.recipeCategories.destroy({
         where: { recipeId: req.params.id },
       });
       res.sendStatus(200);
