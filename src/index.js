@@ -28,6 +28,8 @@ app.use('/recipes', routes.recipes)
 
 app.use('/ingredients', routes.ingredients)
 
+app.use('/categories', routes.categories)
+
 app.all('*', (_, res) => {
   res.sendStatus(404)
 })

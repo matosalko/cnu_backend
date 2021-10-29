@@ -13,11 +13,19 @@ router.post(
     '/',
     body('recipe.title').isLength({min: 2, max: 50}),
     body('recipe.text').isLength({min: 0, max: 255}),
+    body('recipe.rating').isInt({min: 1, max: 5}),
     body('ingredients').isArray().custom((value) => {
         if(!value.every(Number.isInteger)) throw new Error('Array does not contain Integers')
         return true
     }),
     services.recipes.createNewRecipe        
+)
+
+router.put(
+    '/:id/rating',
+    param('id').isInt({min: 0}),
+    body('rating').isInt({min: 1, max: 5}),
+    services.recipes.updateRating
 )
 
 router.delete(

@@ -1,5 +1,5 @@
 import express from "express"
-import { param, body, validationResult } from "express-validator"
+import { param, body } from "express-validator"
 
 import services from "../services"
 

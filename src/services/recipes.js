@@ -3,7 +3,10 @@ import {validationResult} from "express-validator"
 async function getAllRecipes(req, res) {
     try {
         const recipes = await req.context.models.recipe.findAll({
-            include: [{model: req.context.models.ingredient}]
+            include: [
+                {model: req.context.models.ingredient},
+                {model: req.context.models.category}
+            ]
         })
         res.send(recipes)
     } catch(error) {
@@ -38,8 +41,9 @@ async function getFilteredRecipe(req, res) {
 expected request body for creating new recipe:
     {
         recipe: {
-            "title": "recipe title",
-            "text": "instructions for making the recipe"
+            title: "recipe title",
+            text: "instructions for making the recipe",
+            rating: 5
         },
         ingredients: [1, 3]
     }
@@ -64,6 +68,26 @@ async function createNewRecipe(req, res) {
             res.send('Validation error.')
         }
         
+    } catch(error) {
+        req.log.error(error)
+        res.sendStatus(500)
+    }
+}
+
+async function updateRating(req, res) {
+    try {
+        const validationResults = validationResult(req)
+        if(validationResults.isEmpty()) {
+            await req.context.models.recipe.update(
+                {rating: req.body.rating},
+                {where: {id: req.params.id}}
+            )
+            res.sendStatus(200)
+        } else {
+            req.log.info(`validation error value: ${req.body.rating}`)
+            res.status(400)
+            res.send('Validation error.')
+        }
     } catch(error) {
         req.log.error(error)
         res.sendStatus(500)
@@ -97,5 +121,6 @@ export default {
     getAllRecipes, 
     getFilteredRecipe,
     createNewRecipe,
+    updateRating,
     deleteRecipe
 }

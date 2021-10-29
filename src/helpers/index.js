@@ -19,11 +19,29 @@ export async function populateDB() {
       unit: "g",
     },
   ]);
+  await sequelize.models.category.bulkCreate([
+    {
+      title: "soup",
+    },
+    {
+      title: "main course",
+    },
+    {
+      title: "desert",
+    },
+    {
+      title: "sweet",
+    },
+    {
+      title: "spicy",
+    },
+  ]);
   // const ingredients = await sequelize.models.ingredient.findAll();
   await sequelize.models.recipe.bulkCreate([
     {
       title: "Simple stew",
       text: "Just put meat into water with salt",
+      rating: 3
     },
   ]);
   await sequelize.models.recipeIngredients.bulkCreate([
@@ -38,6 +56,16 @@ export async function populateDB() {
     {
       recipeId: 1,
       ingredientId: 3,
+    },
+  ]);
+  await sequelize.models.recipeCategories.bulkCreate([
+    {
+      recipeId: 1,
+      categoryId: 2,
+    },
+    {
+      recipeId: 1,
+      categoryId: 5,
     },
   ]);
 

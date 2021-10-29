@@ -40,7 +40,7 @@ async function createNewIngredient(req, res) {
     const validationResults = validationResult(req)
     if(validationResults.isEmpty()) {
         try {
-            const ingredient = await req.context.models.ingredient.create(req.body)
+            await req.context.models.ingredient.create(req.body)
             res.sendStatus(200)
         } catch(error) {
             req.log.error(error)
