@@ -1,5 +1,5 @@
 import express from "express"
-import {param} from "express-validator"
+import { param, body } from "express-validator"
 
 import services from "../services"
 
@@ -11,6 +11,12 @@ router.get('/:title', param('title').isLength({min: 2, max: 50}), services.recip
 
 router.post(
     '/',
+    body('recipe.title').isLength({min: 2, max: 50}),
+    body('recipe.text').isLength({min: 0, max: 255}),
+    body('ingredients').isArray().custom((value) => {
+        if(!value.every(Number.isInteger)) throw new Error('Array does not contain Integers')
+        return true
+    }),
     services.recipes.createNewRecipe        
 )
 
