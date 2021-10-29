@@ -16,4 +16,10 @@ router.post(
     services.ingredients.createNewIngredient
 )
 
+router.delete(
+    '/:id',
+    param('id').isInt({min: 0}),
+    services.ingredients.deleteIngredientById
+)
+
 export default router

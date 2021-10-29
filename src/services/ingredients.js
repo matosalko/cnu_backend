@@ -54,4 +54,29 @@ async function createNewIngredient(req, res) {
         
 }
 
-export default { getAllIngredients, getFilteredIngredients, createNewIngredient }
+async function deleteIngredientById(req, res) {
+    try {
+        const validationResults = validationResult(req)
+        if(validationResults.isEmpty()) {
+            const deletedIngredient = await req.context.models.ingredient.destroy({
+                where: {id: req.params.id}
+            })
+            res.sendStatus(200)
+        } else {
+            req.log.info(`validation error value: ${req.params.id}`)
+            res.status(400)
+            res.send('Validation error.')
+        }
+        
+    } catch(error) {
+        req.log.error(error)
+        res.send(500)
+    }
+}
+
+export default { 
+    getAllIngredients, 
+    getFilteredIngredients, 
+    createNewIngredient, 
+    deleteIngredientById 
+}
