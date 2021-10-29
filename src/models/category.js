@@ -11,7 +11,7 @@ const category = (sequelize) => {
       validate: {
         notEmpty: true,
       },
-    }
+    },
   });
 
   return category;

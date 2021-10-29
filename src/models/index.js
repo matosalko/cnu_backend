@@ -2,7 +2,7 @@ import Sequelize from "sequelize";
 
 import recipe from "./recipe";
 import ingredient from "./ingredient";
-import category from "./category"
+import category from "./category";
 
 function applyRelations(sequelize) {
   const { ingredient, recipe, category } = sequelize.models;
@@ -10,13 +10,13 @@ function applyRelations(sequelize) {
   ingredient.belongsToMany(recipe, { through: "recipeIngredients" });
   recipe.belongsToMany(ingredient, { through: "recipeIngredients" });
 
-  category.belongsToMany(recipe, { through: "recipeCategories"})
-  recipe.belongsToMany(category, { through: "recipeCategories"})
+  category.belongsToMany(recipe, { through: "recipeCategories" });
+  recipe.belongsToMany(category, { through: "recipeCategories" });
 }
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: 'db.sqlite',
+  storage: "db.sqlite",
   logging: false,
 });
 

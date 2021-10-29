@@ -41,7 +41,7 @@ export async function populateDB() {
     {
       title: "Simple stew",
       text: "Just put meat into water with salt",
-      rating: 3
+      rating: 3,
     },
   ]);
   await sequelize.models.recipeIngredients.bulkCreate([

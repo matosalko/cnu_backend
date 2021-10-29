@@ -16,7 +16,7 @@ const recipe = (sequelize) => {
     },
     rating: {
       type: DataTypes.INTEGER,
-    }
+    },
   });
 
   return recipe;
